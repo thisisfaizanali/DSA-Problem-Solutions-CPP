@@ -121,3 +121,55 @@ public:
         return dp[0] - 1;
     }
 };
+
+// Most optimal using Precomputed Palindrome Check using DP :
+class Solution
+{
+public:
+    int minCut(string &s)
+    {
+        int n = s.size();
+
+        // Precompute all palindromes: pal[i][j] means s[i..j] is palindrome
+        vector<vector<bool>> pal(n, vector<bool>(n, false));
+        for (int i = n - 1; i >= 0; --i)
+        {
+            for (int j = i; j < n; ++j)
+            {
+                // j - i < 2 → length 1 or 2 handled instantly; pal[i+1][j-1] → inner substring
+                if (s[i] == s[j] && (j - i < 2 || pal[i + 1][j - 1]))
+                    pal[i][j] = true;
+            }
+        }
+
+        // dp[i] = min partitions needed for substring s[i..end]
+        // initialize with large values
+        vector<int> dp(n + 1, 1e9);
+
+        // base case: dp[n] = 0 (no partitions needed after end)
+        dp[n] = 0;
+
+        // fill dp from end to start (bottom-up)
+        for (int i = n - 1; i >= 0; --i)
+        {
+            // try all possible end positions j
+            for (int j = i; j < s.size(); ++j)
+            {
+                // pal[i][j] → O(1) check using precomputed table (short-circuits full scan)
+                if (pal[i][j])
+                {
+                    // 1 + dp[j + 1]:
+                    // '1' = one palindromic block formed here
+                    // dp[j + 1] = partitions for remaining substring
+                    int cost = 1 + dp[j + 1];
+
+                    dp[i] = min(cost, dp[i]);
+                }
+            }
+        }
+
+        // dp[0] = total partitions for whole string
+        // cuts = partitions - 1
+        return dp[0] - 1;
+    }
+};

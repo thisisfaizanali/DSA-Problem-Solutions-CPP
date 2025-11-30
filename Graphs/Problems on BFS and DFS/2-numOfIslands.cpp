@@ -1,15 +1,6 @@
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++  Bismillah  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 #include <bits/stdc++.h>
 using namespace std;
-
-/*
-LeetCode: 547. Number of Provinces
-Approach: Depth-First Search (DFS) on adjacency matrix
-Time Complexity: O(n^2)
-  - In the worst case, we check every cell in the adjacency matrix.
-Space Complexity: O(n)
-  - For the visited array to track each node.
-*/
 class Solution
 {
 private:

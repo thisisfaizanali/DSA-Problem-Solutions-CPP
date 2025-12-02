@@ -1,13 +1,66 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++  Bismillah  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+#include <bits/stdc++.h>
+using namespace std;
+
+struct ListNode
+{
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+// Bruteforce solution :
+class Solution
+{
+public:
+    ListNode *addTwoNumbers(ListNode *l1, ListNode *l2)
+    {
+        ListNode *temp = l1;
+        vector<int> a, b, c;
+        while (temp)
+        {
+            // 2 4 3
+            a.push_back(temp->val);
+            temp = temp->next;
+        }
+        reverse(a.begin(), a.end()); // 3 4 2
+        temp = l2;
+        while (temp)
+        {
+            // 5 6 4
+            b.push_back(temp->val);
+            temp = temp->next;
+        }
+        reverse(b.begin(), b.end()); // 4 6 5
+
+        int i = a.size() - 1, j = b.size() - 1, carry = 0;
+        // we add from the back so start with units place which is at size - 1 index :
+        while (i >= 0 || j >= 0 || carry)
+        {
+            int sum = carry;
+            if (i >= 0)
+                sum += a[i--];
+            if (j >= 0)
+                sum += b[j--];
+            c.push_back(sum % 10);
+            carry = sum / 10;
+        }
+
+        // construct the list :
+        ListNode *head = new ListNode(c[0]);
+        ListNode *curr = head;
+        for (int k = 1; k < c.size(); ++k)
+        {
+            curr->next = new ListNode(c[k]);
+            curr = curr->next;
+        }
+        return head;
+    }
+};
+
+// Optimal Solution :
 class Solution
 {
 public:

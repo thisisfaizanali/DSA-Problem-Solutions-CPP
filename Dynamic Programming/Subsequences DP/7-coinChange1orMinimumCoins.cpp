@@ -89,8 +89,7 @@ public:
         vector<int> prev(amount + 1, 0), curr(amount + 1, 0);
 
         // base case: to form 0 amount, 0 coins are needed
-        for (int i = 0; i < n; ++i)
-            prev[0] = 0;
+        prev[0] = 0;
 
         // base case: with only the first coin
         for (int a = 0; a <= amount; ++a)
